@@ -1,6 +1,18 @@
 # PDFarrange
 
-A Next.js App Router frontend with Tailwind CSS v4 and shadcn/ui components built on Radix. Orange, white, and warm neutral tones give the document workspace a calm, modern feel. Use Node.js 22.13 or later.
+A little order for your PDFs. PDFarrange is a modern, privacy-first workspace for uploading, rearranging, rotating, splitting, and merging PDF pages, with an orange-and-white interface that works on desktop and mobile. Your files stay in your browser.
+
+Built with Next.js App Router, Tailwind CSS v4, and shadcn/ui components built on Radix. Google sign-in and AWS cloud storage are planned. Use Node.js 22.13 or later.
+
+## Screenshots
+
+### Desktop
+
+![PDFarrange desktop workspace with document previews and PDF export controls](docs/screenshots/desktop.png)
+
+### Mobile
+
+<img src="docs/screenshots/mobile.png" alt="PDFarrange mobile workspace with a responsive two-column page grid" width="390" />
 
 ## Run locally
 
