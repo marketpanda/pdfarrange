@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { SiteFooter } from "@/components/site-footer";
 import Link from "next/link";
 import {
   ArrowDownToLine,
@@ -769,12 +770,7 @@ export function Workspace() {
             </span>
           </div>
         </main>
-        <footer className="main-footer">
-          <span>
-            A little less chaos. A little more <strong>pdfarrange.</strong>
-          </span>
-          <span>Thoughtfully simple.</span>
-        </footer>
+        <SiteFooter workspace />
       </div>
       {notice && (
         <div className="toast" role="status">

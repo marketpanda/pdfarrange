@@ -23,6 +23,16 @@ yarn dev
 
 Open http://localhost:3000. Production checks: `yarn lint` and `yarn build`.
 
+## Company and policy pages
+
+About Us (`/about`), Contact Us (`/contact`), Terms & Conditions (`/terms`), and Privacy Policy (`/privacy`) share the site's orange-and-white design and footer. The footer includes © 2026 PDFarrange and opens information pages in a new tab from the PDF workspace so local document state is preserved.
+
+Edit the `contactEmail` constant in `lib/site.ts` to change the public contact address (currently `contact@pdfarrange.com`). The contact form opens the visitor's email app with a prepared draft; it does not send email through an API. The policies describe current local PDF processing, support email, hosting requests, and planned account/cloud features separately.
+
+Cloudflare spam protection is planned for a later change and is not active. For a hosted contact form, validate Cloudflare tokens on a server endpoint before sending email; a client-only widget cannot protect a mailto flow. Update the privacy policy when that data flow is introduced.
+
+Policy drafting references: [OAIC privacy-policy guidance](https://www.oaic.gov.au/privacy/your-privacy-rights/your-personal-information/what-is-a-privacy-policy) and [ACCC contract guidance](https://www.accc.gov.au/consumers/buying-products-and-services/contracts).
+
 ## Working features
 
 - Upload multiple PDFs through the file picker or drag and drop.
