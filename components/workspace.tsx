@@ -23,13 +23,11 @@ import {
   LayoutGrid,
   Loader2,
   LockKeyhole,
-  Menu,
   Merge,
   Plus,
   RotateCw,
   Scissors,
   ShieldCheck,
-  Sparkles,
   Trash2,
   X,
   ZoomIn,
@@ -70,7 +68,6 @@ export function Workspace() {
   const [preview, setPreview] = useState<string | null>(null);
   const [dragged, setDragged] = useState<string | null>(null);
   const [dropActive, setDropActive] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [filter, setFilter] = useState("all");
   const [fileName, setFileName] = useState("My arranged document");
   const input = useRef<HTMLInputElement>(null);
@@ -223,152 +220,60 @@ export function Workspace() {
   }
   function chooseTool(next: Tool) {
     setTool(next);
-    setSidebarOpen(false);
   }
   return (
     <div className="app-shell">
-      <aside className={`sidebar ${sidebarOpen ? "is-open" : ""}`}>
-        <Link className="brand" href="/" aria-label="PDFarrange home">
-          <span className="brand-icon">
-            <Files size={22} strokeWidth={1.8} />
-          </span>
-          <span>
-            pdf<span className="brand-light">arrange</span>
-            <span className="brand-dot">.</span>
-          </span>
-        </Link>
-        <div className="workspace-label">YOUR WORKSPACE</div>
-        <nav className="main-nav" aria-label="PDF tools">
-          <button
-            className={tool === "arrange" ? "nav-item active" : "nav-item"}
-            onClick={() => chooseTool("arrange")}
-          >
-            <LayoutGrid size={18} />
-            Organize pages
-            <span className="nav-active-dot" />
-          </button>
-          <button
-            className={tool === "merge" ? "nav-item active" : "nav-item"}
-            onClick={() => chooseTool("merge")}
-          >
-            <Merge size={18} />
-            Merge PDFs
-          </button>
-          <button
-            className={tool === "split" ? "nav-item active" : "nav-item"}
-            onClick={() => chooseTool("split")}
-          >
-            <Scissors size={18} />
-            Split PDF
-          </button>
-        </nav>
-        <div className="sidebar-divider" />
-        <div className="sidebar-files-heading">
-          <span>IN THIS SESSION</span>
-          <span>{sources.length}</span>
-        </div>
-        <button
-          className={`session-file ${filter === "all" ? "current" : ""}`}
-          onClick={() => setFilter("all")}
-        >
-          <FolderOpen size={17} />
-          <span>All documents</span>
-          <span className="file-count">{pages.length}</span>
-        </button>
-        {sources.map((source) => (
-          <div key={source.id} className="source-row">
-            <button
-              className={`session-file ${filter === source.id ? "current" : ""}`}
-              onClick={() => setFilter(source.id)}
-            >
-              <FileText size={16} style={{ color: source.color }} />
-              <span title={source.name}>{source.name}</span>
-            </button>
-            <button
-              className="remove-source"
-              aria-label={`Remove ${source.name}`}
-              onClick={() => {
-                setSources((prev) => prev.filter((s) => s.id !== source.id));
-                setPages((prev) =>
-                  prev.filter((p) => p.sourceId !== source.id),
-                );
-                setSelected(new Set());
-                setFilter("all");
-              }}
-            >
-              <X size={13} />
-            </button>
-          </div>
-        ))}
-        <button
-          className="add-sidebar"
-          onClick={() => input.current?.click()}
-          disabled={busy}
-        >
-          <Plus size={15} />
-          Add a document
-        </button>
-        <div className="sidebar-bottom">
-          <div className="upgrade-card">
-            <span className="upgrade-icon">
-              <Sparkles size={19} />
-            </span>
-            <h3>A little more room.</h3>
-            <p>
-              Working on something bigger?
-              <br />
-              An account is coming soon.
-            </p>
-            <Button variant="outline" onClick={() => setSignIn(true)}>
-              Explore account access
-              <ArrowRight size={14} />
-            </Button>
-          </div>
-          <button className="help-button" onClick={() => setHelp(true)}>
-            <HelpCircle size={17} />
-            Help & getting started
-            <ArrowRight size={14} />
-          </button>
-          <div className="sidebar-footnote">
-            <span className="status-dot" />
-            All systems locally yours
-          </div>
-        </div>
-      </aside>
-      {sidebarOpen && (
-        <button
-          className="mobile-backdrop"
-          aria-label="Close menu"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
       <div className="main-shell">
-        <header className="topbar">
-          <div className="breadcrumb">
-            <button
-              className="mobile-menu"
-              aria-label="Open menu"
-              onClick={() => setSidebarOpen(true)}
-            >
-              <Menu size={20} />
-            </button>
-            <span>Workspace</span>
-            <ChevronRight size={14} />
-            <strong>{toolNames[tool]}</strong>
-          </div>
-          <div className="account-actions">
-            <span className="guest-badge">
-              <span />
-              Guest workspace
-            </span>
-            <Button variant="outline" size="sm" onClick={() => setSignIn(true)}>
-              <GoogleIcon />
-              Sign in with Google
-            </Button>
-            <div className="avatar">G</div>
+        <header className="workspace-header">
+          <div className="header-inner">
+            <Link className="brand" href="/" aria-label="PDFarrange home">
+              <span className="brand-icon">
+                <Files size={22} strokeWidth={1.8} />
+              </span>
+              <span>
+                pdf<span className="brand-light">arrange</span>
+                <span className="brand-dot">.</span>
+              </span>
+            </Link>
+            <nav className="main-nav" aria-label="PDF tools">
+              <button
+                className={tool === "arrange" ? "nav-item active" : "nav-item"}
+                aria-current={tool === "arrange" ? "page" : undefined}
+                onClick={() => chooseTool("arrange")}
+              >
+                <LayoutGrid size={18} />
+                Organize pages
+              </button>
+              <button
+                className={tool === "merge" ? "nav-item active" : "nav-item"}
+                aria-current={tool === "merge" ? "page" : undefined}
+                onClick={() => chooseTool("merge")}
+              >
+                <Merge size={18} />
+                Merge PDFs
+              </button>
+              <button
+                className={tool === "split" ? "nav-item active" : "nav-item"}
+                aria-current={tool === "split" ? "page" : undefined}
+                onClick={() => chooseTool("split")}
+              >
+                <Scissors size={18} />
+                Split PDF
+              </button>
+            </nav>
+            <div className="account-actions">
+              <button className="header-help" onClick={() => setHelp(true)}>
+                <HelpCircle size={17} />
+                <span>Help</span>
+              </button>
+              <Button variant="outline" size="sm" onClick={() => setSignIn(true)}>
+                <GoogleIcon />
+                <span>Sign in with Google</span>
+              </Button>
+            </div>
           </div>
         </header>
-        <main>
+        <main className="workspace-main">
           <div className="page-heading">
             <div>
               <div className="eyebrow">LESS PAPERWORK. MORE POSSIBILITY.</div>
@@ -387,10 +292,6 @@ export function Workspace() {
                     : "Select the pages you want and extract them into a new PDF."}
               </p>
             </div>
-            <span className="heading-illustration">
-              <Files size={43} strokeWidth={1.25} />
-              <span className="illustration-spark">✦</span>
-            </span>
           </div>
           <input
             ref={input}
@@ -430,14 +331,66 @@ export function Workspace() {
               </p>
               <span>PDF files up to 20 MB · Up to 3 files as a guest</span>
             </div>
-            <Button
-              variant="outline"
-              onClick={() => input.current?.click()}
-              disabled={busy}
-            >
-              {busy ? <Loader2 className="animate-spin" /> : <Plus />}Add PDFs
+            <Button onClick={() => input.current?.click()} disabled={busy}>
+              {busy ? <Loader2 className="animate-spin" /> : <Plus />}
+              Select PDF files
             </Button>
           </div>
+          <section
+            className="session-documents"
+            aria-label="Documents in this session"
+          >
+            <div className="session-heading">
+              <FolderOpen size={15} />
+              <span>Your documents</span>
+              <span className="session-count">{sources.length} / 3</span>
+            </div>
+            <div className="session-files">
+              <button
+                className={`session-file ${filter === "all" ? "current" : ""}`}
+                aria-pressed={filter === "all"}
+                onClick={() => setFilter("all")}
+              >
+                <FolderOpen size={17} />
+                <span>All documents</span>
+                <span className="file-count">{pages.length}</span>
+              </button>
+              {sources.map((source) => (
+                <div key={source.id} className="source-row">
+                  <button
+                    className={`session-file ${filter === source.id ? "current" : ""}`}
+                    aria-pressed={filter === source.id}
+                    onClick={() => setFilter(source.id)}
+                  >
+                    <FileText size={16} style={{ color: source.color }} />
+                    <span title={source.name}>{source.name}</span>
+                  </button>
+                  <button
+                    className="remove-source"
+                    aria-label={`Remove ${source.name}`}
+                    onClick={() => {
+                      setSources((prev) => prev.filter((s) => s.id !== source.id));
+                      setPages((prev) =>
+                        prev.filter((p) => p.sourceId !== source.id),
+                      );
+                      setSelected(new Set());
+                      setFilter("all");
+                    }}
+                  >
+                    <X size={13} />
+                  </button>
+                </div>
+              ))}
+              <button
+                className="add-document"
+                onClick={() => input.current?.click()}
+                disabled={busy}
+              >
+                <Plus size={15} />
+                Add a document
+              </button>
+            </div>
+          </section>
           <div className="workspace-panel">
             <div className="panel-heading">
               <div className="document-heading">
@@ -475,39 +428,7 @@ export function Workspace() {
               </Button>
             </div>
             <div className="workspace-toolbar">
-              <div
-                className="tool-tabs"
-                role="tablist"
-                aria-label="Document actions"
-              >
-                <button
-                  role="tab"
-                  aria-selected={tool === "arrange"}
-                  className={tool === "arrange" ? "selected" : ""}
-                  onClick={() => chooseTool("arrange")}
-                >
-                  <LayoutGrid size={15} />
-                  Arrange
-                </button>
-                <button
-                  role="tab"
-                  aria-selected={tool === "merge"}
-                  className={tool === "merge" ? "selected" : ""}
-                  onClick={() => chooseTool("merge")}
-                >
-                  <Merge size={15} />
-                  Merge
-                </button>
-                <button
-                  role="tab"
-                  aria-selected={tool === "split"}
-                  className={tool === "split" ? "selected" : ""}
-                  onClick={() => chooseTool("split")}
-                >
-                  <Scissors size={15} />
-                  Split
-                </button>
-              </div>
+              <span className="current-tool">{toolNames[tool]}</span>
               <div className="toolbar-actions">
                 <button
                   onClick={() =>
